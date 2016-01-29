@@ -1,8 +1,3 @@
-"""
-BIG
-PENIS
-"""
-
 class Matrix:
     def __init__(self):
 
@@ -12,8 +7,8 @@ class Matrix:
         self.cols = []
         self.solved = []
         self.reduced = []
+    def open_matrix_file(self,filename):
         i = 0
-    def open_matix_file(self,filename):
         file = open(filename,'r')
         for line in file:
             line = line.rstrip()
@@ -41,7 +36,6 @@ class Matrix:
                     self.cols.append([])
                 self.cols[i].append(y)
                 i += 1
-
     def row_reduce(self):
         starting_one = False
         reduced = False
@@ -104,4 +98,5 @@ class Matrix:
         pass
     def display_solution(self):
         pass
-Matrix('matrix.txt')
+matrix = Matrix()
+matrix.open_matrix_file('matrix.txt')
