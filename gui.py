@@ -24,4 +24,4 @@ button3.grid()
 
 button3["text"] = "This will show up as well."
 
-root.mainloop()
+button3.mainloop()
