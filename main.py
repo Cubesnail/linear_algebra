@@ -1,6 +1,6 @@
 class Matrix:
-    def __init__(self,filename):
-        file = open(filename,'r')
+    def __init__(self):
+
         self.row_num = 0
         self.col_num = 0
         self.rows = []
@@ -8,6 +8,8 @@ class Matrix:
         self.solved = []
         self.reduced = []
         i = 0
+    def open_matix_file(self,filename):
+        file = open(filename,'r')
         for line in file:
             line = line.rstrip()
             self.rows.append([])
@@ -19,7 +21,6 @@ class Matrix:
         self.col_num = len(self.rows[0])
         self.update_cols()
         print(self.cols)
-
         print("Unsolved Matrix")
         self.display_matrix()
         print(self.col_num)
@@ -76,6 +77,7 @@ class Matrix:
                             for num in range(self.col_num):
                                 self.rows[x][num] -= self.rows[reducing_row][num] * reducing_coe
                     self.reduced[y] = True
+        self.update_cols()
     def display_matrix(self):
         for x in self.rows:
             i = 0
@@ -90,7 +92,9 @@ class Matrix:
     def add_matrix(self,matrix: 'Matrix'):
         pass
     def scalar_multiple(self,multiple: 'integer'):
-        pass
+        for y in self.rows:
+            for x in y:
+                x = x * multiple
     def transpose(self):
         pass
     def display_solution(self):
