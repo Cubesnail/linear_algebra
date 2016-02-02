@@ -1,6 +1,5 @@
 class Matrix:
     def __init__(self):
-
         self.row_num = 0
         self.col_num = 0
         self.rows = []
@@ -62,7 +61,7 @@ class Matrix:
             return
         for y in range(self.row_num):
             for x in range(self.col_num):
-                if self.rows[y][x] != 0 and not self.reduced[y]:
+                if self.rows[y][x] != 0 and not self.reduced[y] and x != self.col_num:
                     print(True)
                     reducing_num = self.rows[y][x]
                     reducing_col = x
@@ -77,13 +76,22 @@ class Matrix:
                                 self.rows[x][num] -= self.rows[reducing_row][num] * reducing_coe
                     self.reduced[y] = True
         self.update_cols()
+
     def display_matrix(self):
+        longest = 0
+        #for y in self.rows:
+        #    i = 0
+        #    for x in y:
+        #        if len(str(y))
+        #
         for x in self.rows:
             i = 0
             print("[",end="")
             while i < self.col_num:
                 if i == self.col_num - 1:
                     print(' |', end=' ')
+                if x[i] == 0:
+                    x[i] = abs(x[i])
                 print(x[i],end=" ")
                 i+=1
             print("]")
