@@ -79,11 +79,14 @@ class Matrix:
 
     def display_matrix(self):
         longest = 0
-        #for y in self.rows:
-        #    i = 0
-        #    for x in y:
-        #        if len(str(y))
-        #
+        for y in self.rows:
+            i = 0
+            for x in y:
+                if x == 0:
+                    x = abs(x)
+                if len(str(x)) > longest:
+                    longest = len(str(x))
+
         for x in self.rows:
             i = 0
             print("[",end="")
