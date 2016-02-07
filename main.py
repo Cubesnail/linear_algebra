@@ -107,14 +107,17 @@ class Matrix:
                 x = x * multiple
     def transpose(self):
         pass
-    def vector_multiplication(self, vector):
+    def vector_multiplication(self, vector: 'List'):
         b = []
         if self.row_num != len(vector):
             for x in range(self.row_num):
                 b.append(0)
             for x in range(len(vector)):
                 for y in self.columns[x]:
-
+                    b[x] += vector[x]*y
+        return b
+    def is_inverse(self,other: 'Matrix'):
+        pass
     def display_solution(self):
         pass
 matrix = Matrix()
