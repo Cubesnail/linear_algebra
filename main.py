@@ -142,7 +142,7 @@ class Matrix:
         :return: matrix
         '''
         pass
-    def scalar_multiple(self,multiple: 'integer'):
+    def scalar_multiplication(self,multiple: 'integer'):
         '''
 
         :param multiple: integer
@@ -174,6 +174,28 @@ class Matrix:
                 result.cols.append(b)
         result.update_cols()
         return result
+    def matrix_multiplication(self,other):
+        '''
+
+        :param other:
+        :return:
+        '''
+        b = []
+        result = matrix()
+        for x in range(self.col_num):
+            b.append[0]
+        if self.col_num != other.row_num:
+            return False
+        helper = matrix()
+        for x in other.cols:
+            helper = self.vector_multiplication(x)
+            for y in range(helper.row_num):
+                for m in helper.rows[y]:
+                    b[y] += m
+            result.cols.append(b)
+        result.update_rows()
+        return result
+
     def is_inverse(self,other: 'Matrix'):
         '''
 
