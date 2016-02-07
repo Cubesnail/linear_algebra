@@ -107,6 +107,14 @@ class Matrix:
                 x = x * multiple
     def transpose(self):
         pass
+    def vector_multiplication(self, vector):
+        b = []
+        if self.row_num != len(vector):
+            for x in range(self.row_num):
+                b.append(0)
+            for x in range(len(vector)):
+                for y in self.columns[x]:
+
     def display_solution(self):
         pass
 matrix = Matrix()
