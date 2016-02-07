@@ -1,5 +1,9 @@
 class Matrix:
     def __init__(self):
+        '''
+
+        :return:
+        '''
         self.row_num = 0
         self.col_num = 0
         self.rows = []
@@ -7,6 +11,11 @@ class Matrix:
         self.solved = []
         self.reduced = []
     def open_matrix_file(self,filename):
+        '''
+
+        :param filename:
+        :return: false
+        '''
         i = 0
         file = open(filename,'r')
         for line in file:
@@ -28,6 +37,12 @@ class Matrix:
         self.display_matrix()
         print(self.col_num)
     def update_cols(self):
+        '''
+
+        :rtype: object
+        :return:
+        '''
+        self.cols = []
         for x in range(self.row_num):
             i = 0
             for y in self.rows[x]:
@@ -35,7 +50,23 @@ class Matrix:
                     self.cols.append([])
                 self.cols[i].append(y)
                 i += 1
+    def update_rows(self):
+        '''
+        :return:
+        '''
+        self.rows = []
+        for y in range(self.col_num):
+            i = 0
+            for x in self.cols[y]
+                if y == 0:
+                    self.rows.append([])
+                self.rows[i].append(x)
     def row_reduce(self):
+        '''
+
+        :return matrix:
+
+        '''
         starting_one = False
         reduced = False
         starting_num = 0
@@ -76,15 +107,21 @@ class Matrix:
                                 self.rows[x][num] -= self.rows[reducing_row][num] * reducing_coe
                     self.reduced[y] = True
         self.update_cols()
-
     def display_matrix(self):
+        '''
+
+        :return:
+        '''
         longest = 0
+        decimal = False
         for y in self.rows:
             i = 0
             for x in y:
                 if x == 0:
                     x = abs(x)
                 if len(str(x)) > longest:
+                    if str(x) == str('{:.'+str(len(str(x)-2))+'f}'.format(x)):
+                        decimal = True
                     longest = len(str(x))
 
         for x in self.rows:
@@ -99,26 +136,56 @@ class Matrix:
                 i+=1
             print("]")
         print("END")
-    def add_matrix(self,matrix: 'Matrix'):
+    def add_matrix(self, other_matrix: 'Matrix'):
+        '''
+        :param other_matrix: matrix
+        :return: matrix
+        '''
         pass
     def scalar_multiple(self,multiple: 'integer'):
+        '''
+
+        :param multiple: integer
+        :return: matrix
+        '''
         for y in self.rows:
             for x in y:
                 x = x * multiple
     def transpose(self):
+        '''
+
+        :return: matrix
+        '''
         pass
     def vector_multiplication(self, vector: 'List'):
+        '''
+
+        :param vector: list
+        :return result: matrix
+        '''
+        result = matrix()
         b = []
-        if self.row_num != len(vector):
+        if self.row_num == len(vector):
             for x in range(self.row_num):
                 b.append(0)
             for x in range(len(vector)):
                 for y in self.columns[x]:
-                    b[x] += vector[x]*y
-        return b
+                    b[x] = vector[x]*y
+                result.cols.append(b)
+        result.update_cols()
+        return result
     def is_inverse(self,other: 'Matrix'):
+        '''
+
+        :param other:
+        :return:
+        '''
         pass
     def display_solution(self):
+        '''
+
+        :return:
+        '''
         pass
 matrix = Matrix()
 matrix.open_matrix_file('matrix.txt')
