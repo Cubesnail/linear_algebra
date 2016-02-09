@@ -58,7 +58,7 @@ class Matrix:
         self.rows = []
         for y in range(self.col_num):
             i = 0
-            for x in self.cols[y]
+            for x in self.cols[y]:
                 if y == 0:
                     self.rows.append([])
                 self.rows[i].append(x)
@@ -122,7 +122,7 @@ class Matrix:
                 if x == 0:
                     x = abs(x)
                 if len(str(x)) > longest:
-                    if str(x) == str('{:.'+str(len(str(x-2)))+'f}'.format(x)):
+                    if str(x) == str(str('{:.'+str(len(str(x-2)))+'f}').format(x)):
                         decimal = True
                     longest = len(str(x))
 
@@ -134,7 +134,7 @@ class Matrix:
                     print(' |', end=' ')
                 if x[i] == 0:
                     x[i] = abs(x[i])
-                print(x[i],end=" ")
+                print(str(str('{:.'+str(len(str(longest-2)))+'f}').format(x[i])),end=" ")
                 i+=1
             print("]")
         print("END")
@@ -222,5 +222,4 @@ class Matrix:
         :return:
         '''
         pass
-matrix = Matrix()
-matrix.open_matrix_file('matrix.txt')
+
