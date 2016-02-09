@@ -229,6 +229,11 @@ class Matrix:
             return False
 
     def determinant(self):
+        """
+
+        :return:
+        :rtype int:
+        """
         if self.cols != self.rows:
             return False
         result = 0
@@ -250,6 +255,10 @@ class Matrix:
         return result
 
     def determinant_base(self):
+        """
+
+        :return:
+        """
         return (self.rows[0][0]*self.rows[1][1]) - (self.rows[1][0]*self.rows[0][1])
 
     def display_solution(self):
