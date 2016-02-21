@@ -273,3 +273,5 @@ def add_matrix():
     pass
 def scalar_multiplication():
     pass
+def is_communative():
+    pass
