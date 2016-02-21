@@ -222,11 +222,7 @@ class Matrix:
         :param other:
         :return:
         """
-        pass
-        if self.matrix_multiplication(other) == other.matrix_multiplication(self):
-            return True
-        else:
-            return False
+        return self.matrix_multiplication(other) == other.matrix_multiplication(self)
 
     def determinant(self):
         """
@@ -267,3 +263,13 @@ class Matrix:
         :return:
         """
         pass
+def is_inverse():
+    pass
+def matrix_multiplication():
+    pass
+def vector_multiplication():
+    pass
+def add_matrix():
+    pass
+def scalar_multiplication():
+    pass
