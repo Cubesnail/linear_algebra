@@ -263,15 +263,56 @@ class Matrix:
         :return:
         """
         pass
-def is_inverse():
+
+
+def is_inverse(matrix, other):
+    # TODO
     pass
-def matrix_multiplication():
+
+
+def matrix_multiplication(matrix, other):
+    # TODO
     pass
-def vector_multiplication():
+
+
+def vector_multiplication(matrix, vector):
+    # TODO
     pass
-def add_matrix():
+
+
+def add_matrix(matrix, other):
+    # TODO
+
+
+
+def scalar_multiplication(matrix, multiple):
+    # TODO: doctests
+    """
+    :type matrix: Matrix
+    :type multiple: int
+    :param matrix:
+    :param multiple:
+    :return:
+    :rtype: Matrix
+    """
+    result = matrix
+    for y in result.rows:
+        for x in y:
+            x *= multiple
+    result.update_cols()
+    return result
+
+
+def is_communative(matrix, other):
+    """
+
+    :param matrix:
+    :param other:
+    :return:
+    """
+    return matrix_multiplication(matrix, other) == matrix_multiplication(other, matrix)
+
+
+def unit_matrix(size):
     pass
-def scalar_multiplication():
-    pass
-def is_communative():
-    pass
+
