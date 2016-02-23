@@ -115,10 +115,11 @@ class Matrix:
         self.update_cols()
 
     def display_matrix(self):
-        """
+        """Print the matrix
 
         :return:
         """
+        #TODO
         longest = 0
         decimal = False
         for y in self.rows:
@@ -144,24 +145,6 @@ class Matrix:
             print("]")
         print("END")
 
-    def add_matrix(self, other_matrix: 'Matrix'):
-        """
-        :param other_matrix: matrix
-        :return: matrix
-        """
-        pass
-
-    def scalar_multiplication(self, multiple: 'int'):
-        """
-
-        :type multiple: int
-        :param multiple:
-        :return: matrix
-        """
-        for y in self.rows:
-            for x in y:
-                x *= multiple
-
     def transpose(self):
         """
 
@@ -176,53 +159,6 @@ class Matrix:
         result.col_num = len(result.cols)
 
         return result
-
-    def vector_multiplication(self, vector: 'list'):
-        """
-
-        :param vector: list
-        :return result: matrix
-        """
-        result = Matrix()
-        b = []
-        if self.row_num == len(vector):
-            for x in range(self.row_num):
-                b.append(0)
-            for x in range(len(vector)):
-                for y in self.cols[x]:
-                    b[x] = vector[x] * y
-                result.cols.append(b)
-        result.update_cols()
-        return result
-
-    def matrix_multiplication(self, other):
-        """
-
-        :param other:
-        :return:
-        """
-        b = []
-        result = Matrix()
-        for x in range(self.col_num):
-            b.append(0)
-        if self.col_num != other.row_num:
-            return False
-        helper = Matrix()
-        for x in other.cols:
-            helper = self.vector_multiplication(x)
-            for y in range(helper.row_num):
-                for m in helper.rows[y]:
-                    b[y] += m
-            result.cols.append(b)
-        result.update_rows()
-        return result
-
-    def is_inverse(self, other: 'Matrix'):
-        """
-        :param other:
-        :return:
-        """
-        return self.matrix_multiplication(other) == other.matrix_multiplication(self)
 
     def determinant(self):
         """
@@ -243,7 +179,7 @@ class Matrix:
                 helper.update_cols()
                 del helper.cols[x]
                 helper.update_rows()
-                if x%2 == 0:
+                if x % 2 == 0:
                     result += helper.determinant
                 else:
                     helper = Matrix
@@ -266,30 +202,87 @@ class Matrix:
 
 
 def is_inverse(matrix, other):
+    """Return if True if two matrices are inverses of each other and False otherwise.
+
+    :param matrix:
+    :param other:
+    :return:
+    """
     # TODO
-    pass
+    return matrix_multiplication(matrix,other) == unit_matrix(matrix.row_num) and \
+           matrix_multiplication(other,matrix) == unit_matrix(other.row_num)
 
 
 def matrix_multiplication(matrix, other):
+    """Multiply two matrices and return the result.
+
+    :param matrix:
+    :param other:
+    :return:
+    """
     # TODO
-    pass
+    b = []
+    result = Matrix()
+    for x in range(matrix.col_num):
+        b.append(0)
+    if matrix.col_num != other.row_num:
+        return None
+    helper = Matrix()
+    for x in other.cols:
+        helper = matrix.vector_multiplication(x)
+        for y in range(helper.row_num):
+            for m in helper.rows[y]:
+                b[y] += m
+        result.cols.append(b)
+    result.update_rows()
+    return result
 
 
 def vector_multiplication(matrix, vector):
+    """Multiply a matrix by a vector and return the result
+
+    :param matrix:
+    :param vector:
+    :return:
+    """
     # TODO
-    pass
+    if len(vector) != matrix.row_num:
+        return None
+    result = Matrix()
+    temp_list = []
+    if matrix.row_num == len(vector):
+        for x in range(matrix.row_num):
+            temp_list.append(0)
+        for x in range(len(vector)):
+            for y in matrix.cols[x]:
+                temp_list[x] = vector[x] * y
+            result.cols.append(b)
+    result.update_cols()
+    return result
 
 
 def add_matrix(matrix, other):
+    """Add two matrices together and return the sum.
+
+    :param matrix:
+    :param other:
+    :return:
+    """
     # TODO
-
-
+    if matrix.row_num != other.row_num or matrix.col_num != other.col_num:
+        return None
+    result = Matrix
+    for y in range(matrix.row_num):
+        for x in range(matrix.col_num):
+            result.rows[y][x] += other.rows[y][x]
+    result.update_cols()
+    return result
 
 def scalar_multiplication(matrix, multiple):
     # TODO: doctests
-    """
+    """Multiply a matrix by a scalar value.
     :type matrix: Matrix
-    :type multiple: int
+    :type multiple: float
     :param matrix:
     :param multiple:
     :return:
@@ -304,7 +297,7 @@ def scalar_multiplication(matrix, multiple):
 
 
 def is_communative(matrix, other):
-    """
+    """Return whether two matrices are communitiative.
 
     :param matrix:
     :param other:
@@ -314,5 +307,19 @@ def is_communative(matrix, other):
 
 
 def unit_matrix(size):
-    pass
+    """Return the unit matrix (identity matrix) of size n*n where param size = n
+
+    :param size:
+    :return:
+    """
+    #TODO
+    result = Matrix()
+    for y in range(size):
+        result.rows.append([])
+    for y in result.rows:
+        for x in range(size):
+            result.append(0)
+    for y in range(size):
+        result.rows[y][y] = 1
+    return result
 
