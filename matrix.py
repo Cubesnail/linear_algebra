@@ -186,6 +186,25 @@ class Matrix:
                     result -= helper.determinant
         return result
 
+    def adjugate(self):
+        """Return an adjugated matrix.
+
+        :return: 
+        """
+
+        result = self
+        temp_matrix = Matrix()
+        for y in range(self.row_num):
+            for x in range(self.col_num):
+                #  Iterate through each element in a matrix.
+                temp_matrix = self
+                del temp_matrix.rows[y]
+                temp_matrix.update_cols()
+                del temp_matrix.cols[x]
+                temp_matrix.update_rows()
+                result.rows[y][x] = temp_matrix.determinant()
+        return result
+
     def determinant_base(self):
         """
 
