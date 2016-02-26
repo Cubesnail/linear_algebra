@@ -5,7 +5,7 @@ from tkinter import *
 #create the window
 matrix = Tk()
 
-#modify the root windotw
+#modify the root window
 
 matrix.title("Labeler")
 matrix.geometry("200x50")
