@@ -236,15 +236,31 @@ class Matrix:
         return (self.rows[0][0]*self.rows[1][1]) - (self.rows[1][0]*self.rows[0][1])
 
     def display_solution(self):
-        """
+        """Display the row-reduced matrix
 
         :return:
         """
         self.row_reduce().display_matrix()
 
-    def eigenvectors(self):
+    def characteristic_polynomial(self):
+        """Find and return the characteristic polynomial of the matrix.
+
+        :return:
+        """
+        #  TODO
+        pass
+
+    def eigenvalues(self):
         """
         :rtype: list
+        :return:
+        """
+        #  TODO
+        pass
+
+    def eigenvectors(self):
+        """Find and return the eigenvectors of a given matrix.
+
         :return:
         """
         #  TODO
