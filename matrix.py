@@ -12,6 +12,7 @@ class Matrix:
         self.col_num = 0
         self.rows = []
         self.cols = []
+        self.reduced = []
 
     def open_matrix_file(self, filename):
         """Parse through a text file and assign it a matrix.
@@ -23,9 +24,10 @@ class Matrix:
         file = open(filename, 'r')
         for line in file:
             #  Skip any lines starting with '#'
-            if line[0] not '#':
+            if line[0] != '#':
                 line = line.rstrip()
                 self.rows.append([])
+                self.reduced.append(False)
                 self.rows[i] = list(map(int, line.split()))
                 i += 1
         self.row_num = i
@@ -75,6 +77,7 @@ class Matrix:
         :return matrix: Matrix
 
         """
+        result = self
         starting_one = False
         reduced = False
         starting_num = 0
@@ -83,43 +86,46 @@ class Matrix:
         remove_rows = []
         y = 0
         #  Determine if the matrix has a non-zero element.
-        for x in range(self.row_num):
+        for x in range(result.row_num):
             starting_one = False
             i = 0
-            while i < self.col_num and not starting_one:
-                if self.rows[x][i] != 0:
+            while i < result.col_num and not starting_one:
+                if result.rows[x][i] != 0:
                     starting_one = True
                 i += 1
             if not starting_one:
                 remove_rows.append(x)
-                self.rows.append(self.rows[x])
+                result.rows.append(result.rows[x])
         remove_rows.sort(reverse=True)
         #  wtf am I doing here
         #  TODO
         for row in remove_rows:
-            self.rows.remove(row)
-        self.update_cols()
-        if len(remove_rows) == len(self.rows):
+            result.rows.remove(row)
+        result.update_cols()
+        if len(remove_rows) == len(result.rows):
             return None
         #  if the matrix cannot be row-reduced, return None
-        for y in range(self.row_num):
-            for x in range(self.col_num):
-                if self.rows[y][x] != 0 and not self.reduced[y] and x != self.col_num:
+        for y in range(result.row_num):
+            for x in range(result.col_num):
+                if result.rows[y][x] != 0 and not result.reduced[y] and x != result.col_num:
                     #  Find the first non-zero number and reduce all other rows relative to it.
-                    reducing_num = self.rows[y][x]
+                    reducing_num = result.rows[y][x]
                     reducing_col = x
                     reducing_row = y
                     if reducing_num != 1:
-                        for num in range(0, self.col_num):
-                            self.rows[reducing_row][num] = self.rows[reducing_row][num] / reducing_num
-                    for x in range(0, self.row_num):
+                        for num in range(0, result.col_num):
+                            result.rows[reducing_row][num] = result.rows[reducing_row][num] / reducing_num
+                    for x in range(0, result.row_num):
                         if x != reducing_row:
-                            reducing_coe = self.rows[x][reducing_col] / self.rows[reducing_row][reducing_col]
-                            for num in range(self.col_num):
-                                self.rows[x][num] -= self.rows[reducing_row][num] * reducing_coe
-                    self.reduced[y] = True
-        self.update_cols()
-
+                            reducing_coe = result.rows[x][reducing_col] / result.rows[reducing_row][reducing_col]
+                            for num in range(result.col_num):
+                                result.rows[x][num] -= result.rows[reducing_row][num] * reducing_coe
+                                if abs(result.rows[x][num]) <= 0.000000001:
+                                    result.rows[x][num] = 0
+                                #  Fix the rows fo real later.
+                    result.reduced[y] = True
+        result.update_cols()
+        return result
     def display_matrix(self):
         """Print the matrix
 
@@ -214,6 +220,12 @@ class Matrix:
                 temp_matrix.update_rows()
                 result.rows[y][x] = temp_matrix.determinant()
         return result
+
+    def is_invertable(self):
+        """Return True if the matrix is invertiable, False otherwise
+
+        :return: bool
+        """
     def is_diagonalizable(self):
         """Return if the matrix is diagonalizable
 
@@ -221,6 +233,7 @@ class Matrix:
         """
         #TODO
         pass
+
     def diagonalize(self):
         """Return the diagonalized matrix.
 
@@ -228,6 +241,7 @@ class Matrix:
         """
         #TODO
         pass
+
     def determinant_base(self):
         """Return the determinant of a matrix of size 2*2.
         :rtype: float
