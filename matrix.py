@@ -1,3 +1,4 @@
+import math
 class Matrix:
     def __init__(self):
         """Initialize the Matrix class.
@@ -229,8 +230,57 @@ class Matrix:
 
         :return:
         """
-        #  TODO
-        pass
+        A_matrix = Matrix()
+        B_matrix = Matrix()
+        C_matrix = Matrix()
+        D_matrix = Matrix()
+        temp_matrix = Matrix()
+        #  Partition the original matrix.
+        if self.row_num >= 6:
+            A_matrix.row_num = math.floor(self.row_num/2)
+            C_matrix.row_num = A_matrix.row_num
+            B_matrix.row_num = self.row_num%A_matrix.row_num
+            D_matrix.row_num = B_matrix.row_num
+        elif self.row_num == 5:
+            A_matrix.row_num = 3
+            C_matrix.row_num = 3
+            B_matrix.row_num = 2
+            D_matrix.row_num = 2
+        elif self.row_num == 4:
+            A_matrix.row_num = 2
+            C_matrix.row_num = 2
+            B_matrix.row_num = 2
+            D_matrix.row_num = 2
+        if self.row_num >= 6:
+            A_matrix.col_num = math.floor(self.col_num/2)
+            C_matrix.col_num = A_matrix.col_num
+            B_matrix.col_num = self.col_num%A_matrix.col_num
+            D_matrix.col_num = B_matrix.col_num
+        elif self.col_num == 5:
+            A_matrix.col_num = 3
+            C_matrix.col_num = 3
+            B_matrix.col_num = 2
+            D_matrix.col_num = 2
+        elif self.col_num == 4:
+            A_matrix.col_num = 2
+            C_matrix.col_num = 2
+            B_matrix.col_num = 2
+            D_matrix.col_num = 2
+        if self.row_num <=3 and self.col_num <= 3:
+            pass
+    def inverse_base(self):
+        temp_matrix = self
+        if self.col_num == 2:
+            temp_matrix.rows[0][0] = self.rows[1][1]
+            temp_matrix.rows[0][1] = self.rows[1][0] * -1
+            temp_matrix.rows[1][0] = self.rows[0][1] * -1
+            temp_matrix.rows[1][1] = self.rows[0][0]
+            return scalar_multiplication(temp_matrix,(1/self.determinant()))
+        elif self.col_num == 3:
+            temp_matrix = self.transpose()
+            return scalar_multiplication(temp_matrix,(1/self.determinant()))
+        else:
+            return None
 
     def is_invertable(self):
         """Return True if the matrix is invertiable, False otherwise
@@ -284,7 +334,7 @@ class Matrix:
         pass
 
     def is_orthagonal(self):
-        return self.inverse == self
+        return self.inverse() == self
 
     def eigenvectors(self):
         """Find and return the eigenvectors of a given matrix.
