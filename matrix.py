@@ -14,6 +14,9 @@ class Matrix:
         self.cols = []
         self.reduced = []
 
+    def __eq__(self, other):
+        return other.rows == self.rows and other.cols == self.cols
+
     def open_matrix_file(self, filename):
         """Parse through a text file and assign it a matrix.
 
@@ -219,7 +222,15 @@ class Matrix:
                 del temp_matrix.cols[x]
                 temp_matrix.update_rows()
                 result.rows[y][x] = temp_matrix.determinant()
-        return result
+        return result.transpose()
+
+    def inverse(self):
+        """Return the inverse of the matrix.
+
+        :return:
+        """
+        #  TODO
+        pass
 
     def is_invertable(self):
         """Return True if the matrix is invertiable, False otherwise
@@ -231,7 +242,7 @@ class Matrix:
 
         :return: bool
         """
-        #TODO
+        #  TODO
         pass
 
     def diagonalize(self):
@@ -239,7 +250,7 @@ class Matrix:
 
         :return: Matrix
         """
-        #TODO
+        #  TODO
         pass
 
     def determinant_base(self):
@@ -271,6 +282,9 @@ class Matrix:
         """
         #  TODO
         pass
+
+    def is_orthagonal(self):
+        return self.inverse == self
 
     def eigenvectors(self):
         """Find and return the eigenvectors of a given matrix.
@@ -353,7 +367,7 @@ def add_matrix(matrix, other):
     # TODO
     if matrix.row_num != other.row_num or matrix.col_num != other.col_num:
         return None
-    result = Matrix
+    result = Matrix()
 
     for y in range(matrix.row_num):
         for x in range(matrix.col_num):
@@ -371,7 +385,7 @@ def scalar_multiplication(matrix, multiple):
     :return:
     :rtype: Matrix
     """
-    result = matrix
+    result = Matrix()
     for y in result.rows:
         for x in y:
             x *= multiple
