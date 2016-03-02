@@ -225,6 +225,7 @@ class Matrix:
                 result.rows[y][x] = temp_matrix.determinant()
         return result.transpose()
 
+    @property
     def inverse(self):
         """Return the inverse of the matrix.
 
@@ -234,41 +235,40 @@ class Matrix:
         B_matrix = Matrix()
         C_matrix = Matrix()
         D_matrix = Matrix()
+        pivot = 0
         temp_matrix = Matrix()
+        if self.col_num != self.row_num:
+            return None
         #  Partition the original matrix.
-        if self.row_num >= 6:
-            A_matrix.row_num = math.floor(self.row_num/2)
-            C_matrix.row_num = A_matrix.row_num
-            B_matrix.row_num = self.row_num%A_matrix.row_num
-            D_matrix.row_num = B_matrix.row_num
-        elif self.row_num == 5:
-            A_matrix.row_num = 3
-            C_matrix.row_num = 3
-            B_matrix.row_num = 2
-            D_matrix.row_num = 2
-        elif self.row_num == 4:
-            A_matrix.row_num = 2
-            C_matrix.row_num = 2
-            B_matrix.row_num = 2
-            D_matrix.row_num = 2
-        if self.row_num >= 6:
-            A_matrix.col_num = math.floor(self.col_num/2)
-            C_matrix.col_num = A_matrix.col_num
-            B_matrix.col_num = self.col_num%A_matrix.col_num
-            D_matrix.col_num = B_matrix.col_num
-        elif self.col_num == 5:
-            A_matrix.col_num = 3
-            C_matrix.col_num = 3
-            B_matrix.col_num = 2
-            D_matrix.col_num = 2
-        elif self.col_num == 4:
-            A_matrix.col_num = 2
-            C_matrix.col_num = 2
-            B_matrix.col_num = 2
-            D_matrix.col_num = 2
-        if self.row_num <=3 and self.col_num <= 3:
-            pass
+        if self.row_num >= 4:
+            pivot = math.floor(self.row_num/2)
+            for x in range(self.row_num):
+                if x <= pivot:
+                    A_matrix.rows.append(self.rows[x][:pivot])
+                    B_matrix.rows.append(self.rows[x][pivot:])
+                else:
+                    C_matrix.rows.append(self.rows[x][:pivot])
+                    D_matrix.rows.append(self.rows[x][pivot:])
+            A_matrix.update_cols()
+            B_matrix.update_cols()
+            C_matrix.update_cols()
+            D_matrix.update_cols()
+            A_inverse = A_matrix.inverse
+            B_inverse = B_matrix.inverse
+            C_inverse = C_matrix.inverse
+            D_inverse = D_matrix.inverse
+            A_block = sub_matrix(A_matrix,matrix_multiplication(matrix_multiplication(B_matrix,D_inverse),C_matrix)).\
+                inverse
+            #  Follow the Algorithm A = (A-BD^-1C)^-1
+            B_block = scalar_multiplication(matrix_multiplication(sub_matrix(A_matrix,matrix_multiplication(
+                matrix_multiplication(B_matrix,D_inverse),C_matrix)),matrix_multiplication(B_matrix,D_inverse)),-1)
+            #  Follow the algorithm B = -(A-BD^-1C)^-1BD^-1
+            C_block = pass
+        else:
+            return self.inverse_base()
+
     def inverse_base(self):
+        #  TODO 3*3 matrix
         temp_matrix = self
         if self.col_num == 2:
             temp_matrix.rows[0][0] = self.rows[1][1]
@@ -334,7 +334,7 @@ class Matrix:
         pass
 
     def is_orthagonal(self):
-        return self.inverse() == self
+        return self.inverse == self
 
     def eigenvectors(self):
         """Find and return the eigenvectors of a given matrix.
@@ -360,6 +360,8 @@ def matrix_multiplication(matrix, other):
     """Multiply two matrices and return the result.
 
     :param matrix:
+    :type matrix: Matrix
+    :type other: Matrix
     :param other:
     :return:
     """
@@ -374,7 +376,7 @@ def matrix_multiplication(matrix, other):
 
     #  Multiply the matrix with each column of the 'other' matrix and sum the resulting rows.
     for x in other.cols:
-        helper = matrix.vector_multiplication(x)
+        helper = vector_multiplication(matrix,x)
         for y in range(helper.row_num):
             for m in helper.rows[y]:
                 b[y] += m
@@ -422,6 +424,24 @@ def add_matrix(matrix, other):
     for y in range(matrix.row_num):
         for x in range(matrix.col_num):
             result.rows[y][x] += other.rows[y][x]
+    result.update_cols()
+    return result
+
+def sub_matrix(matrix, other):
+    """Subtract two matrices together and return the difference.
+
+    :param matrix:
+    :param other:
+    :return:
+    """
+    # TODO
+    if matrix.row_num != other.row_num or matrix.col_num != other.col_num:
+        return None
+    result = Matrix()
+
+    for y in range(matrix.row_num):
+        for x in range(matrix.col_num):
+            result.rows[y][x] -= other.rows[y][x]
     result.update_cols()
     return result
 
